@@ -7,6 +7,7 @@
 - [Demo](#demo)
 - [Install](#install)
 - [Usage](#usage)
+- [Roadmap](#roadmap)
 - [License](#license)
 - [Contributing](#contributing)
 
@@ -22,6 +23,12 @@
 
  -Placeholder
 
+## Roadmap
+
+  >Planned Features:
+    -Menu outside of the game area.
+    -Local gamesave in local storage.
+
 
 ## License
 
@@ -29,6 +36,6 @@
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
 
 Please make sure to update tests as appropriate.

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Weathering with Meow</title>
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <!-- <script src="jquery.js"></script> -->
+    <meta name="author" content="Hantasmagoria">
+    <script src="js/labyrinth.js"></script>
+    <script type="text/javascript">
+        let level = (String(window.location).split(`?&lv=`)[1] != undefined) ? String(window.location).split(`?&lv=`)[1] : 00;
+        //Throws player to the starting screen.
+        if (String(window.location).split(`?&lv=`)[1] == undefined && level == 00) {
+            // console.log("Redirecting.");
+            window.location.href = `${String(window.location)}?&lv=00`;
+        }
+        let app = document.createElement('script');
+        Object.assign(app, {
+            'src': "js/app.js",
+            'onload': "main()"
+        })
+        let controls = document.createElement('script');
+        Object.assign(controls, {
+            'src': "js/controls.js"
+        })
+        let view = document.createElement('script');
+        Object.assign(view, {
+            'src': "js/view.js"
+        })
+        document.head.append(view, app, controls);
+    </script>
+</head>
+
+<body onload="Labyrinth.link()">
+    <h1>Welcome.</h1>
+    <main>
+    </main>
+</body>
+
+</html>
