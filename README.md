@@ -1,4 +1,4 @@
-# :cloud: [TenkiNeKo(天気ネコ)](https://github.com/Hantasmagoria/TenkiNeKo) :cat2:
+# :warning::sleeping: [oVErdOZe](https://github.com/Hantasmagoria/TenkiNeKo) :sleepy::zzz:
 
 >Javascript HTML5 game
 
@@ -26,6 +26,7 @@
 ## Roadmap
 
   >Planned Features:
+    -drug pickup entities that affect the Player's physiology.
     -Menu outside of the game area.
     -Local gamesave in local storage.
 
@@ -36,6 +37,6 @@
 
 ## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
