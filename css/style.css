@@ -5,5 +5,4 @@ h1 {
 canvas {
 	image-rendering: auto;
 	image-rendering: pixelated;
-	image-rendering: crisp-edges;
 }
