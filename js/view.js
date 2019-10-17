@@ -19,11 +19,7 @@ class View {
   }
   visualize() {
     this.backgroundColor( game.world.bgColor);
-<<<<<<< HEAD
     this.hitBox( game.world.player.posX, game.world.player.posY, game.world.player.width, game.world.player.height, game.world.player.color);
-=======
-    this.hitBox( game.world.player.x, game.world.player.y, game.world.player.width, game.world.player.height, game.world.player.color);
->>>>>>> 24b7e9653a04feeb6cb15daee422d41ed7ecffb0
     this.display();
   }
   display() {
@@ -36,11 +32,7 @@ class View {
       this.context.canvas.width = (document.documentElement.clientWidth-32);
       this.context.canvas.height = (document.documentElement.clientWidth-32)*(aspect);
     }else {
-<<<<<<< HEAD
       this.context.canvas.width = (document.documentElement.clientHeight-32)/(aspect);
-=======
-      this.context.canvas.width = (document.documentElement.clientHeight-32)*(aspect);
->>>>>>> 24b7e9653a04feeb6cb15daee422d41ed7ecffb0
       this.context.canvas.height = (document.documentElement.clientHeight-32);
     }
     this.display();

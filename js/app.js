@@ -24,13 +24,8 @@ class Game {
       moveLeft(){this.vX -=0.75}
       moveRight(){this.vX +=0.75}
       stepThrough(){
-<<<<<<< HEAD
         this.posX += this.vX;
         this.posY += this.vY;
-=======
-        this.x += this.vX;
-        this.y += this.vY;
->>>>>>> 24b7e9653a04feeb6cb15daee422d41ed7ecffb0
       }
     }
     this.world = {
@@ -44,11 +39,7 @@ class Game {
         if (touch.posX < 0) { touch.posX = 0; touch.vX = 0; }
         else if (touch.posX + touch.width > this.width) { touch.posX = this.width - touch.width; touch.vX = 0; }
         if (touch.posY < 0) { touch.posY = 0; touch.vY = 0; }
-<<<<<<< HEAD
         else if (touch.posY + touch.height > this.height) { touch.jumpState = false; touch.posY = this.height - touch.height; touch.vY = 0; }
-=======
-        else if (touch.posY + touch.height > this.height) { touch.jumping = false; touch.posY = this.height - touch.height; touch.vY = 0; }
->>>>>>> 24b7e9653a04feeb6cb15daee422d41ed7ecffb0
       },
       'update': function() {
         this.player.vY += this.gravity;
@@ -64,7 +55,6 @@ class Game {
   update(){this.world.update()}
   mov(){
     if (controller.left.active) {
-<<<<<<< HEAD
       // console.log("Moving left");
       game.world.player.moveLeft();
     }
@@ -74,14 +64,6 @@ class Game {
     }
     if (controller.up.active) {
       // console.log("Jumping");
-=======
-      game.world.player.moveLeft();
-    }
-    if (controller.right.active) {
-      game.world.player.moveRight();
-    }
-    if (controller.up.active) {
->>>>>>> 24b7e9653a04feeb6cb15daee422d41ed7ecffb0
       game.world.player.jump();
     }
     this.update();
