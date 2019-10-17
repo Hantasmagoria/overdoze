@@ -4,24 +4,104 @@
 
 class Game {
   constructor() {
-    // this.
+    class Player {
+      constructor(x,y) {
+        this.color      = '#000000';
+        this.height     = 16;
+        this.width      = 4;
+        this.jumpState  = false;
+        this.vX         = 0;
+        this.vY         = 0;
+        this.posX       = (x!=undefined)?x:50;
+        this.posY       = (y!=undefined)?y:50;
+      }
+      jump(){
+        if (!this.jumpState) {
+          this.jumpState = true;
+          this.vY -=30;
+        }
+      }
+      moveLeft(){this.vX -=0.75}
+      moveRight(){this.vX +=0.75}
+      stepThrough(){
+        this.x += this.vX;
+        this.y += this.vY;
+      }
+    }
+    this.world = {
+      'bgColor':/*'rgba(40,48,56,0.25)'*/"#87CEEB",
+      'friction':0.9,
+      'gravity':1.44,
+      'player':new Player(),
+      'height':72,
+      'width':128,
+      'collision': function(touch) {
+        if (touch.posX < 0) { touch.posX = 0; touch.vX = 0; }
+        else if (touch.posX + touch.width > this.width) { touch.posX = this.width - touch.width; touch.vX = 0; }
+        if (touch.posY < 0) { touch.posY = 0; touch.vY = 0; }
+        else if (touch.posY + touch.height > this.height) { touch.jumping = false; touch.posY = this.height - touch.height; touch.vY = 0; }
+      },
+      'update': function() {
+        this.player.vY += this.gravity;
+        this.player.stepThrough();
+
+        this.player.vX *= this.friction;
+        this.player.vY *= this.friction;
+
+        this.collision(this.player);
+      }
+    };
   }
-  start(){}
+  update(){this.world.update()}
+  mov(){
+    if (controller.left.active) {
+      game.world.player.moveLeft();
+    }
+    if (controller.right.active) {
+      game.world.player.moveRight();
+    }
+    if (controller.up.active) {
+      game.world.player.jump();
+    }
+    this.update();
+  }
 }
 
 class Gear {
-  constructor(timeStep, update, display) {
+  constructor(fps) {
     this.elapsedTime = 0;
-    this.time = 0;
+    this.animationFrameRequest = undefined;
+    this.time = undefined;
+    this.timeStep = 1000/fps;
+    this.updated = false;
+    this.run = (timestamp)=>{this.revolution(timestamp)};
   }
-  static rev(){
-    setTimeout(()=>{document.querySelector('h1').style.display = 'none';let game = new Game()}, 1000);
-    View.createCanvas();
-    let play = new Labyrinth();
-    play.controller.openEars();
-    play.view.openEyes();
-    play.view.resize();
-    play.game.start();
+  update(){Labyrinth.update()}
+  render(){Labyrinth.render()}
+  revolution(timestamp){
+    this.elapsedTime += (timestamp) - this.time;
+    this.time = timestamp;
+    if (this.elapsedTime >= this.timeStep*3) {
+      this.elapsedTime = this.timeStep;
+    }
+    while (this.elapsedTime >= this.timeStep) {
+      this.elapsedTime -= this.timeStep;
+      this.update(timestamp);
+      this.updated = true;
+    }
+    if (this.updated) {
+      this.updated = false;
+      this.render(timestamp);
+    }
+    this.animationFrameRequest = window.requestAnimationFrame(this.run);
+  }
+  start(){
+    this.elapsedTime = this.timeStep;
+    this.time = window.performance.now();
+    this.animationFrameRequest = window.requestAnimationFrame(this.run);
+  }
+  stop(){
+    window.cancelAnimationFrame(this.animationFrameRequest);
   }
 }
 //Players

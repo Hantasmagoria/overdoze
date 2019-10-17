@@ -1,4 +1,4 @@
-# :warning::sleeping: [oVErdOZe](https://github.com/Hantasmagoria/TenkiNeKo) :sleepy::zzz:
+# :warning::sleeping: [oVErdOZe](https://github.com/Hantasmagoria/overdpze) :sleepy::zzz:
 
 >Javascript HTML5 game
 
@@ -26,9 +26,9 @@
 ## Roadmap
 
   >Planned Features:
-    -drug pickup entities that affect the Player's physiology.
-    -Menu outside of the game area.
-    -Local gamesave in local storage.
+    * drug pickup entities that affect the Player's physiology.
+    * Menu outside of the game area.
+    * Local gamesave in local storage.
 
 
 ## License
@@ -40,3 +40,6 @@
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 Please make sure to update tests as appropriate.
+
+*[pickup]: Items that the player can obtain that is added to the player.
+*[gamesave]: A piece of digitally stored information about the progress of a player in the game.
