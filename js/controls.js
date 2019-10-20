@@ -1,6 +1,5 @@
 //eventhandles go here.
 
-// console.log("control.js linked.");
 
 class Controller {
   constructor() {
@@ -36,6 +35,7 @@ class Controller {
     // console.log(`key pressed: ${e.keyCode}`);
   }
   openEars() {
+    // console.log("ears Open!");
     window.addEventListener('keydown',(e)=>{this.keyPress(e)});
     window.addEventListener('keyup',(e)=>{this.keyPress(e)});
   }
