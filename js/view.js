@@ -15,9 +15,11 @@ class View {
     this.buffer  = document.createElement("canvas").getContext("2d"),
     this.context = gameArea.getContext("2d");
 
-    this.tileSheet = new Tilesheet(32,9);
+    this.tileSheet = new Tilesheet(32,9);//Tile Sheet has a tile size of 32 and has 9 rows currently.
   }
 
+
+  //NOTE: Draws the world graphics from bottom-right to top-left.
   drawMap(map, columns) {
     for (let i = map.length; i >=0 ; i--) {
       let val = map[i];
@@ -36,9 +38,9 @@ class View {
     this.buffer.fillStyle = fill;
     this.buffer.fillRect(Math.round(x),Math.round(y),width,height);
     // this.buffer.fillStyle = color1;
-    // this.buffer.fillRect(Math.floor(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
+    // this.buffer.fillRect(Math.round(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
     // this.buffer.fillStyle = color2;
-    // this.buffer.fillRect(Math.floor(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
+    // this.buffer.fillRect(Math.round(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
   }
 
   //draws background. might want to use background image instead later on.
