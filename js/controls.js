@@ -1,6 +1,6 @@
 //eventhandles go here.
 
-
+//contains button input handling mechanisms. these are logical buttons.
 class Controller {
   constructor() {
     class ButtonInput {

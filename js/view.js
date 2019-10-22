@@ -5,42 +5,33 @@
 //also manages the canvas graphical rendering and buffering.
 class View {
   constructor(gameArea) {
-    class Tilesheet {
-      constructor(tileSize, columns) {
-        this.image = new Image();
-        this.tileSize = tileSize;
-        this.columns = columns;
-      }
-    }
     this.buffer  = document.createElement("canvas").getContext("2d"),
     this.context = gameArea.getContext("2d");
 
-    this.tileSheet = new Tilesheet(32,9);//Tile Sheet has a tile size of 32 and has 9 rows currently.
   }
 
 
   //NOTE: Draws the world graphics from bottom-right to top-left.
-  drawMap(map, columns) {
+  //watch out for map visual bugs here.
+  drawMap(tSimage, columns, map, tScolumns, tileSize) {
     for (let i = map.length; i >=0 ; i--) {
       let val = map[i];
-      let srcX = (val % this.tileSheet.columns) * this.tileSheet.tileSize;
-      let srcY = Math.floor(val / this.tileSheet.columns) * this.tileSheet.tileSize;
-      let destX = (i % columns) * this.tileSheet.tileSize;
-      let destY = Math.floor(i / columns) * this.tileSheet.tileSize;
+      let srcX = (val % columns) * tileSize;
+      let srcY = Math.floor(val / columns) * tileSize;
+      let destX = (i % tScolumns) * tileSize;
+      let destY = Math.floor(i / tScolumns) * tileSize;
 
-      this.buffer.drawImage(this.tileSheet.image, srcX, srcY, this.tileSheet.tileSize, this.tileSheet.tileSize, destX, destY, this.tileSheet.tileSize, this.tileSheet.tileSize)
+      this.buffer.drawImage(tSimage, srcX, srcY, tileSize, tileSize, destX, destY, tileSize, tileSize)
     }
   }
 
+
   //draws boxes. generally for player box model for now.
-  //commented out is a new function meant to replace the current function with coordinate mappings more adaptable for when sprite sheet is done.
-  hitBox(x,y,width,height,fill) {
-    this.buffer.fillStyle = fill;
-    this.buffer.fillRect(Math.round(x),Math.round(y),width,height);
-    // this.buffer.fillStyle = color1;
-    // this.buffer.fillRect(Math.round(rectangle.x), Math.floor(rectangle.y), rectangle.width, rectangle.height);
-    // this.buffer.fillStyle = color2;
-    // this.buffer.fillRect(Math.round(rectangle.x + 2), Math.floor(rectangle.y + 2), rectangle.width - 4, rectangle.height - 4);
+  hitBox(image, srcX, srcY, destX, destY, width, height) {
+    //old/defunct method. reference: "drawPlayer"
+    // this.buffer.fillStyle = fill;
+    // this.buffer.fillRect(Math.round(x),Math.round(y),width,height);
+    this.buffer.drawImage(image, srcX, srcY, width, height, Math.round(destX), Math.round(destY), width, height)
   }
 
   //draws background. might want to use background image instead later on.
@@ -49,15 +40,7 @@ class View {
     this.buffer.fillRect(0,0,this.buffer.canvas.width,this.buffer.canvas.height);
   }
 
-  //culmination of above two methods. then renders it to canvas live.
-  visualize() {
-    this.backgroundColor( game.world.bgColor);
-    this.drawMap(game.world.map, game.world.columns);
-    this.hitBox( game.world.player.posX, game.world.player.posY, game.world.player.width, game.world.player.height, game.world.player.color);
-    this.display();
-  }
-
-  //this pushes the drawn image from the buffer to the live display.
+  //this pushes the drawn image from the buffer to the live display. reference: "render"
   display() {
     this.context.drawImage(this.buffer.canvas, 0, 0, this.buffer.canvas.width, this.buffer.canvas.height, 0, 0, this.context.canvas.width, this.context.canvas.height)
   }
@@ -65,7 +48,7 @@ class View {
   //the resize method.
   resize(aspect) {
     // console.log(`${this.context.canvas.width}x${this.context.canvas.height}`,);
-    console.log(document.documentElement.clientHeight,document.documentElement.clientWidth);
+    // console.log(document.documentElement.clientHeight,document.documentElement.clientWidth);
     if (((document.documentElement.clientHeight-32)/(document.documentElement.clientWidth-32) > aspect)?true:false) {
       this.context.canvas.width = (document.documentElement.clientWidth-32);
       this.context.canvas.height = (document.documentElement.clientWidth-32)*(aspect);
@@ -95,6 +78,6 @@ class View {
   //event listener for resizing.
   openEyes(){
     // console.log("eyes Open!");
-    window.addEventListener('resize',(e)=>{ Labyrinth.resize(e)});
+    window.addEventListener('resize',(e)=>{ Labyrinth.resize(e,game.world.height/ game.world.width)});
   }
 }

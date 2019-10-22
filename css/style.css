@@ -1,8 +1,14 @@
 h1 {
 	/* transition: transform 0.6s cubic-bezier(0.075, 0.82, 0.165, 1); */
+	color: #6728C1;
+}
+
+body {
+	background-color: #000000;
 }
 
 canvas {
 	image-rendering: auto;
 	image-rendering: pixelated;
+	image-rendering: crisp-edges;
 }

@@ -59,37 +59,37 @@ class Game {
           collide(val, touch, tileX, tileY, tileSize){//this was so painful...
             switch(val) {
               case  1: this.collidePlatformTop      (touch, tileY            ); break;
-              case  2: this.collidePlatformRight    (touch, tileX + tileSize); break;
+              case  2: this.collidePlatformRight    (touch, tileX + tileSize ); break;
               case  3: if (this.collidePlatformTop  (touch, tileY            )) return;
-                       this.collidePlatformRight    (touch, tileX + tileSize); break;
-              case  4: this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       this.collidePlatformRight    (touch, tileX + tileSize ); break;
+              case  4: this.collidePlatformBottom   (touch, tileY + tileSize ); break;
               case  5: if (this.collidePlatformTop  (touch, tileY            )) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
-              case  6: if (this.collidePlatformRight(touch, tileX + tileSize)) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
+              case  6: if (this.collidePlatformRight(touch, tileX + tileSize )) return;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
               case  7: if (this.collidePlatformTop  (touch, tileY            )) return;
-                       if (this.collidePlatformRight(touch, tileX + tileSize)) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       if (this.collidePlatformRight(touch, tileX + tileSize )) return;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
               case  8: this.collidePlatformLeft     (touch, tileX            ); break;
               case  9: if (this.collidePlatformTop  (touch, tileY            )) return;
                        this.collidePlatformLeft     (touch, tileX            ); break;
               case 10: if (this.collidePlatformLeft (touch, tileX            )) return;
-                       this.collidePlatformRight    (touch, tileX + tileSize); break;
+                       this.collidePlatformRight    (touch, tileX + tileSize ); break;
               case 11: if (this.collidePlatformTop  (touch, tileY            )) return;
                        if (this.collidePlatformLeft (touch, tileX            )) return;
-                       this.collidePlatformRight    (touch, tileX + tileSize); break;
+                       this.collidePlatformRight    (touch, tileX + tileSize ); break;
               case 12: if (this.collidePlatformLeft (touch, tileX            )) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
               case 13: if (this.collidePlatformTop  (touch, tileY            )) return;
                        if (this.collidePlatformLeft (touch, tileX            )) return;
                        this.collidePlatformBottom   (touch, tileY + tileSize); break;
               case 14: if (this.collidePlatformLeft (touch, tileX            )) return;
-                       if (this.collidePlatformRight(touch, tileX            )) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       if (this.collidePlatformRight(touch, tileX + tileSize )) return;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
               case 15: if (this.collidePlatformTop  (touch, tileY            )) return;
                        if (this.collidePlatformLeft (touch, tileX            )) return;
-                       if (this.collidePlatformRight(touch, tileX + tileSize)) return;
-                       this.collidePlatformBottom   (touch, tileY + tileSize); break;
+                       if (this.collidePlatformRight(touch, tileX + tileSize )) return;
+                       this.collidePlatformBottom   (touch, tileY + tileSize ); break;
             }
           }
           collidePlatformBottom(touch, bottomOfTile){
@@ -124,6 +124,41 @@ class Game {
         }
         class Object{
           constructor(x,y,width,height){
+            //old animator class, currently defunct due to inheritance issues. Will put it back here when Javascript finally has multiple inheritance.
+            /*class Animator {
+              constructor(frameSet, delay){
+                this.count = 0;
+                this.delay = (delay>0)?delay:1;
+                this.frameSet = frameSet;
+                this.frameIndex = 0;
+                this.frameValue = frameSet[0];
+                this.mode = 'pause';
+              }
+              animate(){
+                if (this.mode == 'loop') {
+                  this.loop()
+                }
+              }
+              changeFrameSet(frameSet, mode, delay=10, frameIndex=0){
+                if (this.frameSet ===frameSet) {return;}
+                this.count = 0;
+                this.delay = delay;
+                this.frameSet = frameSet;
+                this.frameIndex = frameIndex;
+                this.frameValue = frameSet[frameIndex];
+                this.mode = mode;
+              }
+              loop(){
+                this.count++;
+                while (this.count>this.delay) {
+                  this.count-=this.delay;
+                  this.frameIndex = (this.frameIndex<this.frameSet.length)?this.frameIndex+1:0;
+                  this.frameValue = this.frameSet[this.frameIndex];
+                }
+              }
+            }
+            */
+
             this.height = height;
             this.width = width;
             this.posX = x;
@@ -149,14 +184,33 @@ class Game {
           setOldTop(y) { this.oldY = y;}
         }
         class Player extends Object {
-          constructor(x, y) {
-            super((x != undefined) ? x : 50,(y != undefined) ? y : 50,20,30);
+          constructor(x, y, frameSet, delay) {
+            super((x != undefined) ? x : 64,(y != undefined) ? y : 64,20,30);
+            // TODO: figure out how multiple inheritance works in js. animation should be a different class, but player needs it as well.
             this.vCoefficient = 1; //adjusts speed.
-            this.color = '#000000';
+            // this.color = '#000000';
             this.jumpState = true;
             this.bHop = 1.75;
+            this.dX = -1;
             this.vX = 0;
             this.vY = 0;
+
+
+            this.frameSets = {
+              "idleLeft": [0],
+              "jumpLeft": [1],
+              "moveLeft": [2,3,4,5],
+              "idleRight": [6],
+              "jumpRight": [7],
+              "moveRight": [8,9,10,11],
+            }
+            //animator pseudoclass below, refer to comment @ line #127.
+            this.count = 0;
+            this.delay = (delay>0)?delay:1;
+            this.frameSet = this.frameSets[frameSet];
+            this.frameIndex = 0;
+            this.frameValue = this.frameSet[0];
+            this.mode = 'pause';
           }
           jump() {
             if (!this.jumpState) {
@@ -172,31 +226,124 @@ class Game {
             }
           }
           moveLeft() {
+            this.dX = -1;
             this.vX -= 0.65 * this.vCoefficient
           }
-          moveRight() {
+          moveRight(frameSet) {
+            this.dX = 1
             this.vX += 0.65 * this.vCoefficient
           }
-          //this updates the position accoding to the speed.
-          stepThrough() {
+
+          //this updates the animation according to movement. external reference: "player.updateAnimation"
+          stepShow() {
+            if (this.vY<0) {
+              if (this.dX<0){
+                this.changeFrameSet(this.frameSets.jumpLeft, 'pause')
+              }else {
+                this.changeFrameSet(this.frameSets.jumpRight, 'pause')
+              }
+            }else if (this.dX<0) {
+              if (this.vX<-0.3) {
+                this.changeFrameSet(this.frameSets.moveLeft, 'loop', 5)
+              }else {
+                this.changeFrameSet(this.frameSets.idleLeft, 'pause', 5)
+              }
+            }else if (this.dX>0) {
+              if (this.vX>0.3) {
+                this.changeFrameSet(this.frameSets.moveRight, 'loop', 5)
+              }else {
+                this.changeFrameSet(this.frameSets.idleRight, 'pause', 5)
+              }
+            }
+            this.animate();
+          }
+          //this updates the position accoding to the speed. external reference: "player.updatePosition"
+          stepThrough(gravity, resistance) {
             this.oldX = this.posX;
             this.oldY = this.posY;
+            this.vY   += gravity;
+            this.vX *= resistance;      //aerial resistance OR ground friction is decided before passing arg.
             this.posX += this.vX;
             this.posY += this.vY;
           }
+          animate(){
+            // console.log("animation called");
+            if (this.mode == 'loop') {
+              this.loop()
+            }
+          }
+          changeFrameSet(frameSet, mode, delay=10, frameIndex=0){
+            if (this.frameSet ===frameSet) {return;}
+            this.count = 0;
+            this.delay = delay;
+            this.frameSet = frameSet;
+            this.frameIndex = frameIndex;
+            this.frameValue = frameSet[frameIndex];
+            this.mode = mode;
+          }
+          loop(){
+            this.count++;
+            while (this.count>this.delay) {
+              this.count-=this.delay;
+              this.frameIndex = (this.frameIndex<this.frameSet.length-1)?this.frameIndex+1:0;
+              this.frameValue = this.frameSet[this.frameIndex];
+            }
+          }
         }
+        class Tilesheet {
+          constructor(tileSize, columns) {
+            class Frame {
+              constructor(x,y,width,height,offX,offY) {
+                this.x = x;
+                this.y = y;
+                this.width = width;
+                this.height = height;
+                this.offX = offX;
+                this.offY = offY;
+              }
+            }
+            this.tileSize = tileSize;
+            this.columns = columns;
+
+            //tile frame data:
+            /*
+            31 = idleRight
+            32 = moveRight
+            33 ''
+            34 ''
+            35 '', jumpRight
+
+            36 = idleLeft
+            37 = moveLeft
+            38 ''
+            39 ''
+            40 '', jumpLeft
+            */
+
+            //calculation is done by pixel:
+            //tile coordinates => (x-axis = (tile%9)*32), (y-axis = floor(tile/9)*32)
+
+            this.frames = [new Frame(256,96,32,32,0,-1),
+                          new Frame(96,128,32,32,0,-1),
+                          new Frame(96,128,32,32,0,-1),new Frame(0,128,32,32,0,-1),new Frame(32,128,32,32,0,-1),new Frame(64,128,32,32,0,-1),
+                          new Frame(96,96,32,32,0,-1),
+                          new Frame(224,96,32,32,0,-1),
+                          new Frame(224,96,32,32,0,-1),new Frame(128,96,32,32,0,-1),new Frame(160,96,32,32,0,-1),new Frame(192,96,32,32,0,-1)];
+          }
+        }
+
+        this.tileSheet = new Tilesheet(32,9);//Tile Sheet has a tile size of 32 and has 9 rows currently.
+        this.player = new Player(2*32,22*32,"idleLeft");
 
         this.bgColor = /*'rgba(40,48,56,0.25)'*/ "#9cd7f0";
         this.friction = 0.9; //ice = 1.001
         this.resistance = 0.96;
         this.gravity = 0.69;
-        this.player = new Player();
         this.hadron = new Collider();
 
-        // hardcoded map data.
+        // hardcoded map data for now.
         this.columns = 40;
         this.rows = 25;
-        this.tileSize = 32;
         this.map = [9,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,11,
         18,0,0,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,
         18,0,0,19,0,0,19,19,0,0,0,0,0,0,0,0,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,
@@ -256,8 +403,8 @@ class Game {
         2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
         15,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,15];
 
-        this.height = this.tileSize * this.rows;
-        this.width = this.tileSize * this.columns;
+        this.height = this.tileSheet.tileSize * this.rows;
+        this.width = this.tileSheet.tileSize * this.columns;
 
         //  // old game size
         // this.height = 800;
@@ -280,28 +427,28 @@ class Game {
           touch.vY = 0;
         }
 
-        //all else is for other physical boundaries.
+        //all else is for other physical boundaries, like floor, ceiling, sides.
         let bottom, left, right, top, value;
-        top    = Math.floor(touch.getTop()    / this.tileSize);
-        left   = Math.floor(touch.getLeft()   / this.tileSize);
+        top    = Math.floor(touch.getTop()    / this.tileSheet.tileSize);
+        left   = Math.floor(touch.getLeft()   / this.tileSheet.tileSize);
         value  = this.cMap[top * this.columns + left];
-        this.hadron.collide(value, touch, left * this.tileSize, top * this.tileSize, this.tileSize);
+        this.hadron.collide(value, touch, left * this.tileSheet.tileSize, top * this.tileSheet.tileSize, this.tileSheet.tileSize);
 
-        top    = Math.floor(touch.getTop()    / this.tileSize);
-        right  = Math.floor(touch.getRight()  / this.tileSize);
+        top    = Math.floor(touch.getTop()    / this.tileSheet.tileSize);
+        right  = Math.floor(touch.getRight()  / this.tileSheet.tileSize);
         value  = this.cMap[top * this.columns + right];
-        this.hadron.collide(value, touch, right * this.tileSize, top * this.tileSize, this.tileSize);
+        this.hadron.collide(value, touch, right * this.tileSheet.tileSize, top * this.tileSheet.tileSize, this.tileSheet.tileSize);
 
-        bottom = Math.floor(touch.getBot() / this.tileSize);
-        left   = Math.floor(touch.getLeft()   / this.tileSize);
+        bottom = Math.floor(touch.getBot() / this.tileSheet.tileSize);
+        left   = Math.floor(touch.getLeft()   / this.tileSheet.tileSize);
         value  = this.cMap[bottom * this.columns + left];
-        this.hadron.collide(value, touch, left * this.tileSize, bottom * this.tileSize, this.tileSize);
+        this.hadron.collide(value, touch, left * this.tileSheet.tileSize, bottom * this.tileSheet.tileSize, this.tileSheet.tileSize);
 
 
-        bottom = Math.floor(touch.getBot() / this.tileSize);
-        right  = Math.floor(touch.getRight()  / this.tileSize);
+        bottom = Math.floor(touch.getBot() / this.tileSheet.tileSize);
+        right  = Math.floor(touch.getRight()  / this.tileSheet.tileSize);
         value  = this.cMap[bottom * this.columns + right];
-        this.hadron.collide(value, touch, right * this.tileSize, bottom * this.tileSize, this.tileSize);
+        this.hadron.collide(value, touch, right * this.tileSheet.tileSize, bottom * this.tileSheet.tileSize, this.tileSheet.tileSize);
 
       }
       ////old collision method in case I screw up again.
@@ -323,17 +470,21 @@ class Game {
       //   }
       // }
       update() {
-        this.player.vY += this.gravity;
-        this.player.stepThrough();
+        //defunct
+        // this.player.vY += this.gravity;
+        //this.player.vX *= (!this.player.jumpState) ? this.friction : this.resistance;
+        this.player.stepThrough(this.gravity,(!this.player.jumpState) ? this.friction : this.resistance);
 
-        this.player.vX *= (!this.player.jumpState) ? this.friction : this.resistance;
         //below commented out because vertical air resistance won't be introduced in this game.
         //but leaving this here just in case physics screw up again.
         // this.player.vY *= this.friction;
 
         this.collision(this.player);
+
+        this.player.stepShow();
       }
     }
+    //A WHOOOOOLE NEEEEW WOOOOORLD~
     this.world = new World()
   }
   update() {
@@ -359,8 +510,28 @@ class Game {
   }
 }
 
-//Players
-//Objectives
-//Procedures
-//Rules
-//Resources
+
+
+
+
+
+
+
+
+//below is just some game design stuff where I actually think about:
+// -the storyline,
+// -level design,
+// -audio cues,
+// -background music,
+// -color themes,
+// -user experience,
+// -voiceovers,
+//-etc.
+
+/*
+Players
+Objectives
+Procedures
+Rules
+Resources
+*/
