@@ -7,7 +7,6 @@ class View {
   constructor(gameArea) {
     this.buffer  = document.createElement("canvas").getContext("2d"),
     this.context = gameArea.getContext("2d");
-
   }
 
 
