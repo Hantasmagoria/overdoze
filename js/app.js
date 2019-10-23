@@ -526,7 +526,9 @@ class Game {
 // -color themes,
 // -user experience,
 // -voiceovers,
-//-etc.
+// -physics,
+// -graphics,
+// -etc.
 
 /*
 Players
