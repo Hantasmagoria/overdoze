@@ -15,7 +15,7 @@ class Labyrinth {
     game.mov();
   }
 
-  //conversion required here
+  //this static method handles the drawing.
   static render(){
     view.backgroundColor( game.world.bgColor);
     view.drawMap(clerk.tileSetImage,game.world.tileSheet.columns, game.world.map, game.world.columns, game.world.tileSheet.tileSize);
@@ -28,6 +28,7 @@ class Labyrinth {
   }
 }
 
+//asset manager class, because managing assets can be pretty hard.
 class AssetMan {
   loadTileSetImage(dir,o){
     this.tileSetImage = new Image();
@@ -36,7 +37,7 @@ class AssetMan {
   }
 }
 
-//had issues maintaining the encapsulation on this method. pulled it out and let it be a global function and everything works. i dunno, didn't want to spend another 58 hours on solving this.
+//had issues maintaining the encapsulation on this static method. pulled it out and let it be a global function and everything works. i dunno, didn't want to spend another 58 hours on solving this.
 const rev = ()=>{
   View.createCanvas();
     clerk      = new AssetMan();

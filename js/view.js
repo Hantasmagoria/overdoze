@@ -26,9 +26,9 @@ class View {
   }
 
 
-  //draws boxes. generally for player box model for now.
+  //draws in images in logical boxes into the buffer.
   hitBox(image, srcX, srcY, destX, destY, width, height) {
-    //old/defunct method. reference: "drawPlayer"
+    //old/defunct method. reference: external "drawPlayer"
     // this.buffer.fillStyle = fill;
     // this.buffer.fillRect(Math.round(x),Math.round(y),width,height);
     this.buffer.drawImage(image, srcX, srcY, width, height, Math.round(destX), Math.round(destY), width, height)
