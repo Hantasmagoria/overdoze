@@ -25,7 +25,7 @@
 
 ## Demo
 
-[Play the game on my github pages page!](https://hantasmagoria.github.io/documentations/overdoze)
+[Play the game on my github pages page!](https://hantasmagoria.github.io/demo/overdoze)
 
 ## Usage
 
